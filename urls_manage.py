@@ -29,4 +29,9 @@ class Urlmanager(object):
             return
         for url in urls:
             self.add_new_url(url)
+    def urls_clear(self):
+        if self.old_urls is None and self.new_urls is None:
+            return
+        self.old_urls.clear()
+        self.new_urls.clear()
 

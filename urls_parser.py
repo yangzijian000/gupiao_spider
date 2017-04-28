@@ -26,8 +26,11 @@ class Parser(object):
         return new_urls
 
     def get_new_data(self, soup):
-        tds = soup.tbody.find_all('td')
+        tds = soup.table.find_all('td')
         new_data = []
-        for td in tds:
-            new_data.append(td.get_text())
+        for i in range(0,len(tds)-2):
+            new_data.append(tds[i].get_text())
+        pattern = re.compile(r'(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})')
+        data_time = pattern.search(tds[len(tds)-1].get_text()).group(1)
+        new_data.append(data_time)
         return new_data

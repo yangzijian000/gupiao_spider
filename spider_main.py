@@ -32,18 +32,25 @@ class SpiderMain(object):
                 self.urls.add_new_urls(new_urls)
                 self.mysql.startoutdata(new_data)
 
-                if page == 2:
-                    break
-
+                if page == 106:
+                    self.urls.urls_clear()
+                    self.urls.add_new_url(self.root_url)
+                    page = 1
+                    continue
                 page = page + 1
-            except:
+            except Exception as e:
                 print('craw failed')
+                if page == 108:
+                    break
+                page = page + 1
+                # print(e)
 
 
     def process(self):
         th = threading.Thread(target=self.start,args=())
+        th.setDaemon(True)
         th.start()
-        return th
+        # return th
 class pagemanage(object):
     def __init__(self):
         self.currentpage=1
@@ -73,8 +80,8 @@ if __name__ =="__main__":
     gupiao_spiderB = SpiderMain(tablenameB, root_urlB)
     th1 = gupiao_spiderB.process()
     th2 = gupiao_spiderA.process()
-    th1.join()
-    th2.join()
+    # th1.join()
+    # th2.join()
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = gupiao_ui.Ui_MainWindow()
