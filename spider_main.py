@@ -51,25 +51,6 @@ class SpiderMain(object):
         th.setDaemon(True)
         th.start()
         # return th
-class pagemanage(object):
-    def __init__(self):
-        self.currentpage=1
-        self.nextpage=2
-        self.prevpage=0
-    def page_turning_down(self):
-        self.currentpage = self.currentpage+1
-        self.nextpage = self.nextpage+1
-        self.prevpage = self.prevpage+1
-        return self.currentpage
-    def page_turring_up(self):
-        if self.currentpage==1:
-            return 1
-        self.currentpage = self.currentpage - 1
-        self.nextpage = self.nextpage - 1
-        self.prevpage = self.prevpage - 1
-        return self.currentpage
-    def get_currentpage(self):
-        return self.currentpage
 
 if __name__ =="__main__":
     root_urlA = 'http://quote.stockstar.com/stock/ranklist_a_3_1_1.html'

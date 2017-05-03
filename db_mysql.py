@@ -66,23 +66,23 @@ class Mysql(object):
         conn.close()
         print('创建表成功！')
     def fetch(self,page):
-        page = (page-1) * 22
+        page = (page-1) * 18
         conn, cursor = self.connectsql()
         # cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
         try:
             cursor.execute('select * from ' + self.tablename)
             cursor.scroll(page, mode='absolute')
-            data = cursor.fetchmany(22)
+            data = cursor.fetchmany(18)
             conn.commit()
             cursor.close()
             conn.close()
-            print(data)
+            # print(data)
             return data
         except:
             str = '爬取中...'
             data=(str,str,str,str,str,str,str,str,str,str,str,str,str,str,)
             datas=[]
-            for i in range(0,22):
+            for i in range(0,18):
                 datas.append(data)
             return datas
 
