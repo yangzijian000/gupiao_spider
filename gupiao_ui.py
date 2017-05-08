@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+     # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'gupiao.ui'
 #
@@ -368,12 +368,12 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "下一页"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "沪深B股"))
     def settabledata1(self,datas):
-        for i in range(0,22):
+        for i in range(0,18):
             for j in range(0, 13):
                 item =QtWidgets.QTableWidgetItem(datas[i][j])
                 self.tableWidget.setItem(i,j,item)
     def settabledata2(self,datas):
-        for i in range(0,22):
+        for i in range(0,18):
             for j in range(0, 13):
                 item =QtWidgets.QTableWidgetItem(datas[i][j])
                 self.tableWidget_2.setItem(i,j,item)

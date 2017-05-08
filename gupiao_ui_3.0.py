@@ -354,7 +354,10 @@ class pagemanage(object):
         self.currentpage=1
         self.nextpage=2
         self.prevpage=0
+        self.sumpage=179
     def page_turning_down(self):
+        if self.currentpage == 179:
+            return 179
         self.currentpage = self.currentpage+1
         self.nextpage = self.nextpage+1
         self.prevpage = self.prevpage+1
@@ -378,31 +381,63 @@ class MY_UI(QtWidgets.QWidget,Ui_Stock):
         self.pagemanger_B = pagemanage()
         self.dbA = db_mysql.Mysql('沪深A股')
         self.dbB = db_mysql.Mysql('沪深B股')
-        Adatas = self.dbA.fetch(self.pagemanger_A.get_currentpage())
-        self.settabledataA(Adatas)
-        Bdatas = self.dbB.fetch(self.pagemanger_B.get_currentpage())
-        self.settabledataB(Bdatas)
+        self.initdataA()
+        self.initdataB()
     def initui(self):
-        self.tableWidget_A.horizontalHeader().sectionClicked.connect(self.SortA)
-        self.tableWidget_B.horizontalHeader().sectionClicked.connect(self.SortB)
+        self.tableWidget_A.horizontalHeader().sectionClicked.connect(self.SortA_desc)
+        self.tableWidget_B.horizontalHeader().sectionClicked.connect(self.SortB_desc)
         self.PageUpButton_A.clicked.connect(self.PageUpButton_A_clicked)
         self.PageDownButton_A.clicked.connect(self.PageDownButton_A_clicked)
         self.PageUpButton_B.clicked.connect(self.PageUpButton_B_clicked)
         self.PageDownButton_B.clicked.connect(self.PageDownButton_B_clicked)
-    def SortA(self,colum):
-        pass
-
-    def SortB(self,colum):
-        pass
+        self.InquireButton_A.clicked.connect(self.InquireButton_A_clicked)
+    def SortA_asc(self,colum):
+        order = {0: 'default', 1: 'default', 2: '最新价', 3: '(涨跌幅+0)', 4: '(涨跌额+0)', 5: '(5分钟涨幅+0)',
+                 6: '成交量', 7: '成交额', 8: '(换手率+0)', 9: '(振幅+0)', 10: '量比', 11: '(委比+0)', 12: '市盈率', }
+        self.dbA.order = order[colum]
+        self.dbA.sortby = 'asc'
+        self.tableWidget_A.horizontalHeader().sectionClicked.disconnect(self.SortA_asc)
+        self.tableWidget_A.horizontalHeader().sectionClicked.connect(self.SortA_desc)
+        self.initdataA()
+    def SortA_desc(self,colum):
+        order = {0: 'default', 1: 'default', 2: '最新价', 3: '(涨跌幅+0)', 4: '(涨跌额+0)', 5: '(5分钟涨幅+0)',
+                 6: '成交量', 7: '成交额', 8: '(换手率+0)', 9: '(振幅+0)', 10: '量比', 11: '(委比+0)', 12: '市盈率', }
+        self.dbA.order = order[colum]
+        self.dbA.sortby = 'desc'
+        self.tableWidget_A.horizontalHeader().sectionClicked.disconnect(self.SortA_desc)
+        self.tableWidget_A.horizontalHeader().sectionClicked.connect(self.SortA_asc)
+        self.initdataA()
+    def SortB_asc(self,colum):
+        order = {0: 'default', 1: 'default', 2: '最新价', 3: '(涨跌幅+0)', 4: '(涨跌额+0)', 5: '(5分钟涨幅+0)',
+                 6: '成交量', 7: '成交额', 8: '(换手率+0)', 9: '(振幅+0)', 10: '量比', 11: '(委比+0)', 12: '市盈率', }
+        self.dbB.order = order[colum]
+        self.dbB.sortby = 'asc'
+        self.tableWidget_B.horizontalHeader().sectionClicked.disconnect(self.SortB_asc)
+        self.tableWidget_B.horizontalHeader().sectionClicked.connect(self.SortB_desc)
+        self.initdataB()
+    def SortB_desc(self,colum):
+        order = {0: 'default', 1: 'default', 2: '最新价', 3: '(涨跌幅+0)', 4: '(涨跌额+0)', 5: '(5分钟涨幅+0)',
+                 6: '成交量', 7: '成交额', 8: '(换手率+0)', 9: '(振幅+0)', 10: '量比', 11: '(委比+0)', 12: '市盈率', }
+        self.dbB.order = order[colum]
+        self.dbB.sortby = 'desc'
+        self.tableWidget_B.horizontalHeader().sectionClicked.disconnect(self.SortB_desc)
+        self.tableWidget_B.horizontalHeader().sectionClicked.connect(self.SortB_asc)
+        self.initdataB()
+    def initdataA(self):
+        datas = self.dbA.fetch(self.pagemanger_A.get_currentpage())
+        self.settabledataA(datas)
+    def initdataB(self):
+        datas = self.dbB.fetch(self.pagemanger_B.get_currentpage())
+        self.settabledataB(datas)
     def settabledataA(self,datas):
         self.tableWidget_A.clearContents()
-        for i in range(0,18):
+        for i in range(0,len(datas)):
             for j in range(0, 13):
                 item =QtWidgets.QTableWidgetItem(datas[i][j])
                 self.tableWidget_A.setItem(i,j,item)
     def settabledataB(self,datas):
         self.tableWidget_B.clearContents()
-        for i in range(0,18):
+        for i in range(0,len(datas)):
             for j in range(0, 13):
                 item =QtWidgets.QTableWidgetItem(datas[i][j])
                 self.tableWidget_B.setItem(i,j,item)
@@ -421,6 +456,9 @@ class MY_UI(QtWidgets.QWidget,Ui_Stock):
     def PageDownButton_B_clicked(self):
         datas = self.dbB.fetch(self.pagemanger_B.page_turning_down())
         self.settabledataB(datas)
+
+    def InquireButton_A_clicked(self,colum):
+        print(colum)
 
 
 if __name__ == '__main__':

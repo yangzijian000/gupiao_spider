@@ -32,7 +32,7 @@
     <widget class="QPushButton" name="PageDownButtonA">
      <property name="geometry">
       <rect>
-       <x>340</x>
+       <x>220</x>
        <y>680</y>
        <width>126</width>
        <height>33</height>
@@ -55,7 +55,7 @@
     <widget class="QPushButton" name="PageUpButtonA">
      <property name="geometry">
       <rect>
-       <x>200</x>
+       <x>0</x>
        <y>680</y>
        <width>126</width>
        <height>33</height>
@@ -157,24 +157,60 @@
       </property>
      </column>
     </widget>
+    <widget class="QLineEdit" name="lineEdit">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>680</y>
+       <width>31</width>
+       <height>33</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>690</y>
+       <width>21</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>页</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>680</y>
+       <width>51</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>转到</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>680</y>
+       <width>89</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
      <string>沪深B股</string>
     </attribute>
-    <widget class="QPushButton" name="PageDownButtonB">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>680</y>
-       <width>126</width>
-       <height>33</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>下一页</string>
-     </property>
-    </widget>
     <widget class="QGraphicsView" name="KpictureB">
      <property name="geometry">
       <rect>
@@ -183,19 +219,6 @@
        <width>551</width>
        <height>261</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="PageUpButtonB">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>680</y>
-       <width>126</width>
-       <height>33</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>上一页</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditB">
@@ -289,6 +312,81 @@
        <string>简称</string>
       </property>
      </column>
+    </widget>
+    <widget class="QPushButton" name="pushButton_3">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>680</y>
+       <width>51</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>转到</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>690</y>
+       <width>21</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>页</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_3">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>680</y>
+       <width>31</width>
+       <height>33</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="PageDownButtonA_3">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>680</y>
+       <width>126</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>下一页</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="PageUpButtonA_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>680</y>
+       <width>126</width>
+       <height>33</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>上一页</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>680</y>
+       <width>89</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
     </widget>
    </widget>
   </widget>

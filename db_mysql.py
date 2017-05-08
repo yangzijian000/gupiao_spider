@@ -6,7 +6,7 @@
 # @File    : db_mysql.py
 # @Software: PyCharm
 import pymysql
-import datetime
+import warnings
 class Mysql(object):
     def __init__(self,tablename):
         self.host = '127.0.0.1'
@@ -16,15 +16,17 @@ class Mysql(object):
         self.passwd = '230512'
         self.charset = 'utf8'
         self.tablename = tablename
+        self.order = 'default'
+        self.sortby = 'desc'
         self.CreateTable()
-    def startoutdata(self,new_data):
+    def startoutdata(self,new_data,data_time):
         if len(new_data)==0:
             return
         conn,cursor = self.connectsql()
         action = 'insert into '+ self.tablename +\
                  '(代码,简称,最新价,涨跌幅,涨跌额,5分钟涨幅,成交量,成交额,换手率,振幅,量比,委比,市盈率,数据时间) ' \
                  'VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
-        dt = new_data[len(new_data)-1]
+        dt = data_time
 
         for i in range(0, len(new_data)-1, 13):
             try:
@@ -58,31 +60,64 @@ class Mysql(object):
                                                      '  成交额 varchar(30),  换手率 varchar(30),  振幅 varchar(30),'
                                                      '  量比 varchar(30),  委比 varchar(30),  市盈率 varchar(30),'
                                                      '数据时间 datetime,primary key(代码,数据时间))engine=innodb default charset=utf8;')
-        # cursor.execute('CREATE TABLE IF NOT EXISTS timefor'+self.tablename+
-        #                '(nid int not null auto_increment primary key,'
-        #                'datetime datetime not null,UNIQUE (datetime))')
+        cursor.execute('CREATE TABLE IF NOT EXISTS stockfor'+self.tablename+
+                       '(代码 varchar(30) not null,'
+                       ' 简称 varchar(30) not null,'
+                       ' 今开 varchar(30) not null,'
+                       ' 最高 varchar(30) not null,'
+                       ' 昨收 varchar(30) not null,'
+                       ' 最低 varchar(30) not null,'
+                       ' 数据时间 datetime not null,'
+                       ' primary key(代码,数据时间))engine=innodb default charset=utf8;')
         conn.commit()
         cursor.close()
         conn.close()
         print('创建表成功！')
     def fetch(self,page):
-        page = (page-1) * 18
+        warnings.filterwarnings('ignore')
+        fetch_page = (page-1) * 18
         conn, cursor = self.connectsql()
         # cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+        if self.order == 'default':
+            sql = 'select * from %s order by 数据时间 desc limit %d,18'%(self.tablename,fetch_page)
+        else:
+            sql = 'select * from %s order by 数据时间 desc,%s %s limit %d,18'%(self.tablename,self.order,self.sortby,fetch_page)
         try:
-            cursor.execute('select * from ' + self.tablename)
-            cursor.scroll(page, mode='absolute')
-            data = cursor.fetchmany(18)
+            cursor.execute(sql)
+            # cursor.scroll((page-1) * 18, mode='absolute')
+            data = cursor.fetchall()
             conn.commit()
             cursor.close()
             conn.close()
             # print(data)
             return data
         except:
+            # print(e)
             str = '爬取中...'
             data=(str,str,str,str,str,str,str,str,str,str,str,str,str,str,)
             datas=[]
             for i in range(0,18):
                 datas.append(data)
             return datas
+
+    def stockdata(self, new_data, data_time):
+        if len(new_data)==0:
+            return
+        conn,cursor = self.connectsql()
+        action = 'insert into stockfor'+ self.tablename +\
+                 '(代码,简称,今开,最高,昨收,最低,数据时间) ' \
+                 'VALUES(%s,%s,%s,%s,%s,%s,%s)'
+        dt = data_time
+        try:
+            cursor.execute(action,
+                       (new_data[0],new_data[1],new_data[2],new_data[3],new_data[4],
+                        new_data[5],dt))
+        except Exception as e:
+            # print(Exception,':',e)
+            conn.rollback()
+        conn.commit()
+        cursor.close()
+        conn.close()
+        # print('成功导入数据!')
+
 

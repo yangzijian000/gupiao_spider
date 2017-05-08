@@ -36,4 +36,4 @@ class Downloader(object):
         r = requests.get(url, headers = {"User-Agent":random.choice(self.user_agent)})
         if r.status_code != 200:
             return None
-        return r.text
+        return r.content
