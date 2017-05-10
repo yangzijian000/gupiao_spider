@@ -491,8 +491,9 @@ class MY_UI(QtWidgets.QWidget,Ui_Stock):
         self.Current_Page_B.setText('当前为' + str(self.pagemanger_B.currentpage) + '页')
 
     def GotoPageButton_A_clicked(self):
+        page = int(self.GotoPageLine_A.text())
+        self.GotoPageLine_A.clear()
         try:
-            page = int(self.GotoPageLine_A.text())
             datas = self.dbA.fetch(self.pagemanger_A.goto_page(page))
             self.settabledataA(datas)
             self.Current_Page_A.setText('当前为' + str(self.pagemanger_A.currentpage) + '页')
@@ -500,8 +501,9 @@ class MY_UI(QtWidgets.QWidget,Ui_Stock):
             return
 
     def GotoPageButton_B_clicked(self):
+        page = int(self.GotoPageLine_B.text())
+        self.GotoPageLine_B.clear()
         try:
-            page = int(self.GotoPageLine_B.text())
             datas = self.dbB.fetch(self.pagemanger_B.goto_page(page))
             self.settabledataB(datas)
             self.Current_Page_B.setText('当前为' + str(self.pagemanger_B.currentpage) + '页')
@@ -509,8 +511,9 @@ class MY_UI(QtWidgets.QWidget,Ui_Stock):
             return
 
     def InquireButton_A_clicked(self):
+        text = self.InquirelineEdit_A.text()
+        self.InquirelineEdit_A.clear()
         try:
-            text = self.InquirelineEdit_A.text()
             stockdata,datas,data4Day_k = self.dbA.InquireStock(text)
             self.drawtimepicture(datas)
             self.drawK_day(data4Day_k)
@@ -520,8 +523,9 @@ class MY_UI(QtWidgets.QWidget,Ui_Stock):
             return
 
     def InquireButton_B_clicked(self):
+        text = self.InquirelineEdit_B.text()
+        self.InquirelineEdit_B.clear()
         try:
-            text = self.InquirelineEdit_B.text()
             stockdata,datas,data4Day_k = self.dbB.InquireStock(text)
             self.drawtimepicture(datas)
             self.drawK_day(data4Day_k)

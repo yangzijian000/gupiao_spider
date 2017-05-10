@@ -150,8 +150,37 @@ class Mysql(object):
             conn.close()
             print(stockdata,data)
             print(data4Day_k)
+            if len(stockdata) ==0:
+                conn, cursor = self.connectsql()
+                sql = 'select 代码,简称,今开,昨收,最高,最低,date_format(数据时间,%s) from stockfor%s where 简称=\'%s\' order by 数据时间 desc limit 0,1;' \
+                      % ('\'%Y-%m-%d %H:%m:%s\'', self.tablename, text)
+                print(sql)
+                cursor.execute(sql)
+                stockdata = cursor.fetchall()
+                today = datetime.datetime.today().date()
+                sql = 'select 最新价,涨跌幅,涨跌额,成交量,换手率,市盈率,振幅,数据时间 from %s where 简称=\'%s\' ' \
+                      'and 数据时间 > \'%s\' order by 数据时间 desc;' % (self.tablename, text, today.isoformat())
+                print(sql)
+                cursor.execute(sql)
+                data = cursor.fetchall()
+                data4Day_k = []
+                for i in range(1, 8):
+                    day1 = (today - datetime.timedelta(days=i - 1)).isoformat()
+                    day2 = (today - datetime.timedelta(days=i - 2)).isoformat()
+                    print(day2)
+                    sql = 'select 昨收,数据时间 from stockfor%s where 简称=\'%s\' ' \
+                          'and 数据时间 > \'%s\' and 数据时间 < \'%s\' order by ' \
+                          '数据时间 desc limit 0,1;' % (self.tablename, text, day1, day2)
+                    cursor.execute(sql)
+                    data4Day_k.append(cursor.fetchone())
+                conn.commit()
+                cursor.close()
+                conn.close()
+                print(stockdata, data)
+                print(data4Day_k)
         except Exception as e:
             print(e)
+
         return stockdata[0],data,data4Day_k
 
 
